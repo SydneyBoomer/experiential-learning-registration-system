@@ -140,6 +140,7 @@
 .item-meta  { font-size: 0.85rem; color: var(--text-muted); }
 .item-state { margin-top: 4px; font-size: 0.85rem; color: var(--text); }
 .item-state.ok { color: var(--success); }
+.item-state.no { color: var(--danger-dark); }
 
 .empty-small { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
 

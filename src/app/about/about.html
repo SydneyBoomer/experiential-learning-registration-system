@@ -65,6 +65,26 @@
                             </select>
                         </label>
 
+                        <label>
+                            Professor
+                            <select [(ngModel)]="selectedResearchProfessor">
+                                <option value="">All professors</option>
+                                @for (professor of getResearchProfessors(); track professor) {
+                                    <option [value]="professor">{{ professor }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <label>
+                            Department
+                            <select [(ngModel)]="selectedResearchDepartment">
+                                <option value="">All departments</option>
+                                @for (department of getResearchDepartments(); track department) {
+                                    <option [value]="department">{{ department }}</option>
+                                }
+                            </select>
+                        </label>
+
                         <button type="button" class="link-button" (click)="clearFilters()">
                             Clear filters
                         </button>
@@ -207,6 +227,19 @@
                         <li>
                             <div class="item-title">{{ application.title }}</div>
                             <div class="item-meta">{{ application.professor }}</div>
+                        </li>
+                    }
+                </ul>
+            }
+
+            @if (getRejectedOpportunities().length > 0) {
+                <h3>Not accepted</h3>
+                <ul class="status-list">
+                    @for (application of getRejectedOpportunities(); track application.id) {
+                        <li>
+                            <div class="item-title">{{ application.title }}</div>
+                            <div class="item-meta">{{ application.professor }}</div>
+                            <div class="item-state no">Not accepted</div>
                         </li>
                     }
                 </ul>

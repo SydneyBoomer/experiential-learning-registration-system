@@ -89,4 +89,15 @@ export class ApplicationService {
 
   }
 
+  denyByProfessor(
+      applicationId: number
+  ): Observable<any> {
+
+      return this.http.put(
+          `${this.apiUrl}/${applicationId}/professor-deny`,
+          {}
+      );
+
+  }
+
 }

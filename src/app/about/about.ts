@@ -49,6 +49,8 @@ export class AboutComponent implements OnInit {
 
   selectedField = '';
   selectedSubfield = '';
+  selectedResearchProfessor = '';
+  selectedResearchDepartment = '';
 
 
   /*
@@ -211,6 +213,36 @@ export class AboutComponent implements OnInit {
 
 
   /*
+   * Get all unique Research professors.
+   */
+  getResearchProfessors(): string[] {
+
+    return [
+      ...new Set(
+        this.getResearchOpportunities()
+          .map(opportunity => opportunity.professor)
+          .filter(professor => professor)
+      )
+    ].sort();
+  }
+
+
+  /*
+   * Get all unique Research departments.
+   */
+  getResearchDepartments(): string[] {
+
+    return [
+      ...new Set(
+        this.getResearchOpportunities()
+          .map(opportunity => opportunity.department)
+          .filter(department => department)
+      )
+    ].sort();
+  }
+
+
+  /*
    * Get Research opportunities after
    * applying the selected filters.
    */
@@ -238,6 +270,24 @@ export class AboutComponent implements OnInit {
       );
     }
 
+    if (this.selectedResearchProfessor) {
+
+      filtered = filtered.filter(
+        opportunity =>
+          opportunity.professor ===
+          this.selectedResearchProfessor
+      );
+    }
+
+    if (this.selectedResearchDepartment) {
+
+      filtered = filtered.filter(
+        opportunity =>
+          opportunity.department ===
+          this.selectedResearchDepartment
+      );
+    }
+
     return filtered;
   }
 
@@ -249,6 +299,8 @@ export class AboutComponent implements OnInit {
 
     this.selectedField = '';
     this.selectedSubfield = '';
+    this.selectedResearchProfessor = '';
+    this.selectedResearchDepartment = '';
   }
 
 
@@ -486,6 +538,20 @@ export class AboutComponent implements OnInit {
 
 
   /*
+   * Get applications that were
+   * rejected by a professor or advisor.
+   */
+  getRejectedOpportunities():
+    Application[] {
+
+    return this.applications.filter(
+      application =>
+        application.status === 'REJECTED'
+    );
+  }
+
+
+  /*
    * -------------------------
    * APPLY
    * -------------------------
@@ -581,7 +647,7 @@ export class AboutComponent implements OnInit {
       application =>
         application.opportunityId ===
           opportunity.id &&
-        application.status === 'APPLIED'
+        application.status !== 'WITHDRAWN'
     );
   }
 

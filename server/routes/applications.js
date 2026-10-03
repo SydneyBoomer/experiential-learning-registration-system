@@ -373,4 +373,89 @@ router.put('/:id/advisor-approve', (req, res) => {
 });
 
 
+/*
+ * PROFESSOR DENIES APPLICATION
+ */
+router.put('/:id/professor-deny', (req, res) => {
+
+    const sql = `
+        UPDATE applications
+
+        SET status = 'REJECTED'
+
+        WHERE id = ?
+        AND status = 'APPLIED'
+    `;
+
+    db.run(
+        sql,
+        [req.params.id],
+        function(err) {
+
+            if (err) {
+                return res.status(500).json({
+                    error: err.message
+                });
+            }
+
+            if (this.changes === 0) {
+                return res.status(400).json({
+                    error:
+                        'Application cannot be denied.'
+                });
+            }
+
+            res.json({
+                message:
+                    'Application denied.'
+            });
+        }
+    );
+});
+
+
+/*
+ * ADVISOR DENIES APPLICATION
+ *
+ * Only applications the professor has
+ * already approved can be denied here.
+ */
+router.put('/:id/advisor-deny', (req, res) => {
+
+    const sql = `
+        UPDATE applications
+
+        SET status = 'REJECTED'
+
+        WHERE id = ?
+        AND status = 'PROFESSOR_APPROVED'
+    `;
+
+    db.run(
+        sql,
+        [req.params.id],
+        function(err) {
+
+            if (err) {
+                return res.status(500).json({
+                    error: err.message
+                });
+            }
+
+            if (this.changes === 0) {
+                return res.status(400).json({
+                    error:
+                        'Application cannot be denied.'
+                });
+            }
+
+            res.json({
+                message:
+                    'Application denied by advisor.'
+            });
+        }
+    );
+});
+
+
 module.exports = router;

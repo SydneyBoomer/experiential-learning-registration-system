@@ -57,4 +57,18 @@ export class AdvisorService {
 
     }
 
+    /*
+     * DENY AN APPLICATION
+     */
+    denyApplication(
+        applicationId: number
+    ): Observable<any> {
+
+        return this.http.put(
+            `${this.apiUrl}/${applicationId}/advisor-deny`,
+            {}
+        );
+
+    }
+
 }

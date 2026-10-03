@@ -208,4 +208,40 @@ export class FacultyComponent implements OnInit {
             });
     }
 
+    /*
+     * Deny a student's application.
+     */
+
+    denyApplication(application: FacultyApplication): void {
+
+        if (!confirm(`Deny ${application.student}'s application to "${application.title}"?`)) {
+            return;
+        }
+
+        this.applicationService
+            .denyByProfessor(application.id)
+            .subscribe({
+                next: () => {
+
+                    this.loadApplications();
+                    this.loadOpportunities();
+
+                },
+                error: error => {
+                    console.error(
+                        'Error denying application:',
+                        error
+                    );
+
+                    alert(
+                        error?.error?.error ||
+                        `Could not deny the application (HTTP ${error.status}).`
+                    );
+
+                    // Re-sync in case the page was showing stale data.
+                    this.loadApplications();
+                }
+            });
+    }
+
 }

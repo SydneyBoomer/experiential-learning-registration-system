@@ -142,4 +142,48 @@ export class AdvisorComponent implements OnInit {
 
     }
 
+
+
+    /*
+     * DENY AN APPLICATION
+     */
+    denyApplication(
+        application: AdvisorApplication
+    ): void {
+
+        if (!confirm(`Deny ${application.student}'s registration for "${application.title}"?`)) {
+            return;
+        }
+
+        this.advisorService
+            .denyApplication(application.id)
+            .subscribe({
+
+                next: () => {
+
+                    this.loadPendingApplications();
+
+                },
+
+                error: error => {
+
+                    console.error(
+                        'Error denying application:',
+                        error
+                    );
+
+                    alert(
+                        error?.error?.error ||
+                        `Could not deny the application (HTTP ${error.status}).`
+                    );
+
+                    // Re-sync in case the page was showing stale data.
+                    this.loadPendingApplications();
+
+                }
+
+            });
+
+    }
+
 }
