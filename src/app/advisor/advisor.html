@@ -1,0 +1,237 @@
+<div class="advisor-page">
+
+
+    <!-- =====================================
+         ADVISOR HEADER
+         ===================================== -->
+
+    <header class="advisor-header">
+
+        <p class="eyebrow">
+            Advisor Dashboard
+        </p>
+
+        <h1>
+            Welcome, Dr. Advisor
+        </h1>
+
+        <p class="intro">
+            Review faculty-approved applications and
+            manage student experiential-learning
+            registrations.
+        </p>
+
+    </header>
+
+
+    <!-- =====================================
+         WAITING FOR APPROVAL
+         ===================================== -->
+
+    <section class="advisor-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Waiting for Advisor Approval
+                </h2>
+
+                <p>
+                    Applications that have been approved
+                    by faculty and are waiting for your
+                    approval.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (pendingApplications.length === 0) {
+
+            <p class="empty-message">
+                There are currently no applications
+                waiting for advisor approval.
+            </p>
+
+        } @else {
+
+            <div class="application-list">
+
+                @for (
+                    application of pendingApplications;
+                    track application.id
+                ) {
+
+                    <div class="application-card">
+
+
+                        <div class="application-info">
+
+                            <span class="application-type">
+                                {{ application.type }}
+                            </span>
+
+                            <h3>
+                                {{ application.student }}
+                            </h3>
+
+                            <p class="application-title">
+                                {{ application.title }}
+                            </p>
+
+                            <div class="application-details">
+
+                                <span>
+                                    <strong>
+                                        Professor:
+                                    </strong>
+
+                                    {{ application.professor }}
+                                </span>
+
+                                <span>
+                                    <strong>
+                                        Department:
+                                    </strong>
+
+                                    {{ application.department }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="application-action">
+
+                            <span class="faculty-approved">
+                                Faculty Approved
+                            </span>
+
+                            <button
+                                type="button"
+                                class="approve-button"
+                                (click)="approveApplication(application)"
+                            >
+                                Approve Registration
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+    <!-- =====================================
+         REGISTERED APPLICATIONS
+         ===================================== -->
+
+    <section class="advisor-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Registered Students
+                </h2>
+
+                <p>
+                    Students whose experiential-learning
+                    applications have completed the
+                    approval process.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (registeredApplications.length === 0) {
+
+            <p class="empty-message">
+                There are currently no registered
+                students.
+            </p>
+
+        } @else {
+
+            <div class="application-list">
+
+                @for (
+                    application of registeredApplications;
+                    track application.id
+                ) {
+
+                    <div class="application-card registered-card">
+
+
+                        <div class="application-info">
+
+                            <span class="application-type">
+                                {{ application.type }}
+                            </span>
+
+                            <h3>
+                                {{ application.student }}
+                            </h3>
+
+                            <p class="application-title">
+                                {{ application.title }}
+                            </p>
+
+                            <div class="application-details">
+
+                                <span>
+                                    <strong>
+                                        Professor:
+                                    </strong>
+
+                                    {{ application.professor }}
+                                </span>
+
+                                <span>
+                                    <strong>
+                                        Department:
+                                    </strong>
+
+                                    {{ application.department }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="application-action">
+
+                            <span class="registered-badge">
+                                Registered
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+</div>

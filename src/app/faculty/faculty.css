@@ -1,0 +1,664 @@
+/* =====================================
+   FACULTY PAGE
+   ===================================== */
+
+.faculty-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 28px 70px;
+}
+
+
+/* =====================================
+   FACULTY HEADER
+   ===================================== */
+
+.faculty-header {
+    margin-bottom: 38px;
+}
+
+.faculty-header .eyebrow {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.faculty-header h1 {
+    margin: 0 0 12px;
+    color: var(--primary-dark);
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.faculty-header .intro {
+    max-width: 680px;
+    margin: 0;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
+/* =====================================
+   MAIN DASHBOARD CARDS
+   ===================================== */
+
+.faculty-section {
+    margin-bottom: 28px;
+    padding: 30px;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(45, 65, 72, 0.07);
+}
+
+
+/* =====================================
+   SECTION HEADINGS
+   ===================================== */
+
+.section-heading {
+    margin-bottom: 24px;
+}
+
+.section-heading h2 {
+    margin: 0 0 7px;
+    color: var(--primary-dark);
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   EMPTY MESSAGES
+   ===================================== */
+
+.empty-message {
+    margin: 0;
+    padding: 16px 18px;
+    background: #f8f6f0;
+    border: 1px solid #e1e3df;
+    border-radius: 8px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+
+/* =====================================
+   OPPORTUNITY FILTERS
+   ===================================== */
+
+.opportunity-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.opportunity-filters button {
+    padding: 9px 16px;
+    background: var(--surface-alt);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.opportunity-filters button:hover {
+    background: var(--bg);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+}
+
+.opportunity-filters button.active {
+    background: var(--primary);
+    color: var(--surface);
+    border-color: var(--primary);
+}
+
+
+/* =====================================
+   FACULTY OPPORTUNITIES
+   ===================================== */
+
+.opportunity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.faculty-opportunity {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.faculty-opportunity:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(45, 65, 72, 0.08);
+}
+
+
+/* =====================================
+   OPPORTUNITY HEADER
+   ===================================== */
+
+.faculty-opportunity-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.faculty-opportunity-summary::-webkit-details-marker {
+    display: none;
+}
+
+.faculty-opportunity-summary::before {
+    content: "›";
+    flex-shrink: 0;
+    margin-right: 16px;
+    color: var(--primary);
+    font-size: 1.8rem;
+    font-weight: 400;
+    transition: transform 0.2s ease;
+}
+
+.faculty-opportunity[open]
+.faculty-opportunity-summary::before {
+    transform: rotate(90deg);
+}
+
+
+/* =====================================
+   OPPORTUNITY INFORMATION
+   ===================================== */
+
+.faculty-opportunity .opportunity-main {
+    flex: 1;
+}
+
+.faculty-opportunity .opportunity-type {
+    display: inline-block;
+    margin-bottom: 7px;
+    padding: 5px 10px;
+    background: var(--bg);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.faculty-opportunity h3 {
+    margin: 0 0 7px;
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+}
+
+.faculty-opportunity .description {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   OPPORTUNITY COUNTS
+   ===================================== */
+
+.opportunity-counts {
+    display: flex;
+    gap: 10px;
+    margin-left: 25px;
+}
+
+.count-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 75px;
+    padding: 10px 12px;
+    background: var(--surface-alt);
+    border-radius: 9px;
+}
+
+.count-item strong {
+    color: var(--primary-dark);
+    font-size: 1.4rem;
+    line-height: 1.1;
+}
+
+.count-item span {
+    margin-top: 4px;
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* =====================================
+   ACCEPTED STUDENTS
+   ===================================== */
+
+.opportunity-students {
+    padding: 20px 24px 24px;
+    background: #f8f6f0;
+    border-top: 1px solid var(--border);
+}
+
+.opportunity-students h4 {
+    margin: 0 0 14px;
+    color: var(--primary-dark);
+    font-size: 1rem;
+}
+
+.accepted-student {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.accepted-student h3 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+}
+
+.accepted-student p {
+    margin: 0;
+    color: var(--primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.opportunity-students .empty-message {
+    margin: 0;
+}
+
+
+/* =====================================
+   STUDENT APPLICATIONS
+   ===================================== */
+
+.application-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.application-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(45, 65, 72, 0.08);
+}
+
+
+/* =====================================
+   APPLICATION INFORMATION
+   ===================================== */
+
+.application-info {
+    flex: 1;
+}
+
+.application-type {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    background: var(--bg);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.application-info h3 {
+    margin: 0 0 5px;
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+}
+
+.application-info p {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.5;
+}
+
+
+/* =====================================
+   APPLICATION STATUS
+   ===================================== */
+
+.application-status {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+
+
+/* =====================================
+   APPROVE BUTTON
+   ===================================== */
+
+.approve-button {
+    padding: 10px 18px;
+    background: var(--primary);
+    color: var(--surface);
+    border: none;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.approve-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+
+/* =====================================
+   CAPSTONE REQUESTS
+   ===================================== */
+
+.capstone-request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.capstone-request-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 22px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.capstone-request-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(45, 65, 72, 0.08);
+}
+
+
+/* =====================================
+   CAPSTONE INFORMATION
+   ===================================== */
+
+.capstone-request-info {
+    flex: 1;
+}
+
+.capstone-request-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    background: var(--bg);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.capstone-request-info h3 {
+    margin: 0 0 7px;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+}
+
+.capstone-research-idea {
+    margin: 0 0 8px;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.capstone-specifics {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   CAPSTONE BUTTON AREA
+   ===================================== */
+
+.capstone-request-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 24px;
+    flex-shrink: 0;
+}
+
+.capstone-approve-button,
+.capstone-deny-button {
+    padding: 10px 17px;
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.capstone-approve-button {
+    background: var(--primary);
+    color: var(--surface);
+    border: 1px solid var(--primary);
+}
+
+.capstone-approve-button:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.capstone-deny-button {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--border-strong);
+}
+
+.capstone-deny-button:hover {
+    background: var(--bg);
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+
+/* =====================================
+   STATUS BADGES
+   ===================================== */
+
+.status-badge {
+    display: inline-block;
+    padding: 8px 13px;
+    background: var(--bg);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.status-badge.approved {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success-border);
+}
+
+
+/* =====================================
+   APPROVED CAPSTONES
+   ===================================== */
+
+.approved-capstone-card {
+    border-color: #d2dfdb;
+}
+
+.approved-capstone-card:hover {
+    border-color: #bfd2cb;
+}
+
+
+/* =====================================
+   RESPONSIVE DESIGN
+   ===================================== */
+
+@media (max-width: 750px) {
+
+    .faculty-page {
+        padding: 35px 18px 55px;
+    }
+
+    .faculty-section {
+        padding: 22px;
+        border-radius: 12px;
+    }
+
+    .faculty-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .faculty-opportunity-summary {
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .opportunity-counts {
+        margin-left: 15px;
+    }
+
+    .count-item {
+        min-width: 62px;
+        padding: 9px 8px;
+    }
+
+    .count-item strong {
+        font-size: 1.2rem;
+    }
+
+    .capstone-request-card,
+    .application-card {
+        flex-direction: column;
+    }
+
+    .application-status,
+    .capstone-request-status {
+        width: 100%;
+        margin-top: 18px;
+        margin-left: 0;
+    }
+
+    .capstone-request-status {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .faculty-section {
+        padding: 18px;
+    }
+
+    .faculty-opportunity-summary {
+        flex-direction: column;
+    }
+
+    .faculty-opportunity-summary::before {
+        margin-bottom: 8px;
+        margin-right: 0;
+    }
+
+    .opportunity-counts {
+        width: 100%;
+        margin-top: 18px;
+        margin-left: 0;
+    }
+
+    .count-item {
+        flex: 1;
+    }
+
+    .opportunity-filters {
+        flex-direction: column;
+    }
+
+    .opportunity-filters button {
+        width: 100%;
+    }
+
+    .capstone-request-status {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .capstone-approve-button,
+    .capstone-deny-button {
+        width: 100%;
+    }
+
+}

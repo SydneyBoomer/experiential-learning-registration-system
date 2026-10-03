@@ -1,0 +1,232 @@
+<main class="about-page">
+
+    <header class="page-head">
+        <h1>Experiential learning</h1>
+        <p>Browse research, capstone and teaching assistant openings, and track your applications.</p>
+    </header>
+
+    <div class="layout">
+
+        <!-- =========================================
+             BROWSE (left): tabs instead of accordions
+             ========================================= -->
+        <section class="browse" aria-label="Opportunities">
+
+            <div class="tabs" role="tablist">
+                <button type="button" role="tab" id="tab-research"
+                        [attr.aria-selected]="activeTab === 'research'"
+                        [class.active]="activeTab === 'research'"
+                        (click)="activeTab = 'research'">
+                    Research
+                    <span class="count">{{ getFilteredResearchOpportunities().length }}</span>
+                </button>
+
+                <button type="button" role="tab" id="tab-capstone"
+                        [attr.aria-selected]="activeTab === 'capstone'"
+                        [class.active]="activeTab === 'capstone'"
+                        (click)="activeTab = 'capstone'">
+                    Capstone
+                </button>
+
+                <button type="button" role="tab" id="tab-ta"
+                        [attr.aria-selected]="activeTab === 'ta'"
+                        [class.active]="activeTab === 'ta'"
+                        (click)="activeTab = 'ta'">
+                    Teaching assistant
+                    <span class="count">{{ getFilteredTeachingAssistantOpportunities().length }}</span>
+                </button>
+            </div>
+
+
+            <!-- RESEARCH -->
+            @if (activeTab === 'research') {
+
+                <div role="tabpanel" aria-labelledby="tab-research">
+
+                    <div class="filters">
+                        <label>
+                            Field
+                            <select [(ngModel)]="selectedField"
+                                    (ngModelChange)="selectedSubfield = ''">
+                                <option value="">All fields</option>
+                                @for (field of getFields(); track field) {
+                                    <option [value]="field">{{ field }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <label>
+                            Subfield
+                            <select [(ngModel)]="selectedSubfield" [disabled]="!selectedField">
+                                <option value="">All subfields</option>
+                                @for (subfield of getFilterSubfields(); track subfield) {
+                                    <option [value]="subfield">{{ subfield }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <button type="button" class="link-button" (click)="clearFilters()">
+                            Clear filters
+                        </button>
+                    </div>
+
+                    @if (getFilteredResearchOpportunities().length === 0) {
+                        <p class="empty">No research openings match these filters. Try a different field or clear the filters.</p>
+                    } @else {
+                        <div class="opportunity-list">
+                            @for (opportunity of getFilteredResearchOpportunities(); track opportunity.id) {
+                                <app-research-opportunity
+                                    [opportunity]="opportunity"
+                                    [applied]="hasApplied(opportunity)"
+                                    (apply)="apply($event)">
+                                </app-research-opportunity>
+                            }
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+            <!-- CAPSTONE -->
+            @if (activeTab === 'capstone') {
+                <div role="tabpanel" aria-labelledby="tab-capstone">
+                    <app-capstone></app-capstone>
+                </div>
+            }
+
+
+            <!-- TEACHING ASSISTANT -->
+            @if (activeTab === 'ta') {
+
+                <div role="tabpanel" aria-labelledby="tab-ta">
+
+                    <div class="filters">
+                        <label>
+                            Professor
+                            <select [(ngModel)]="selectedTAProfessor">
+                                <option value="">All professors</option>
+                                @for (professor of getTAProfessors(); track professor) {
+                                    <option [value]="professor">{{ professor }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <label>
+                            Department
+                            <select [(ngModel)]="selectedTADepartment">
+                                <option value="">All departments</option>
+                                @for (department of getTADepartments(); track department) {
+                                    <option [value]="department">{{ department }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <label>
+                            Format
+                            <select [(ngModel)]="selectedTAFormat">
+                                <option value="">All formats</option>
+                                @for (format of getTAFormats(); track format) {
+                                    <option [value]="format">{{ format }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <label>
+                            Time
+                            <select [(ngModel)]="selectedTATime">
+                                <option value="">All times</option>
+                                @for (time of getTATimes(); track time) {
+                                    <option [value]="time">{{ time }}</option>
+                                }
+                            </select>
+                        </label>
+
+                        <button type="button" class="link-button" (click)="clearTAFilters()">
+                            Clear filters
+                        </button>
+                    </div>
+
+                    @if (getFilteredTeachingAssistantOpportunities().length === 0) {
+                        <p class="empty">No teaching assistant openings match these filters.</p>
+                    } @else {
+                        <div class="opportunity-list">
+                            @for (opportunity of getFilteredTeachingAssistantOpportunities(); track opportunity.id) {
+                                <app-teaching-assistant
+                                    [opportunity]="opportunity"
+                                    [applied]="hasApplied(opportunity)"
+                                    (apply)="apply($event)">
+                                </app-teaching-assistant>
+                            }
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </section>
+
+
+        <!-- =========================================
+             MY APPLICATIONS (right): always visible
+             ========================================= -->
+        <aside class="tracker" aria-label="My applications">
+
+            <h2>My applications</h2>
+
+            <h3>Pending</h3>
+            @if (getAppliedOpportunities().length === 0) {
+                <p class="empty-small">You haven't applied to anything yet.</p>
+            } @else {
+                <ul class="status-list">
+                    @for (application of getAppliedOpportunities(); track application.id) {
+                        <li>
+                            <div class="item-title">{{ application.title }}</div>
+                            <div class="item-meta">{{ application.professor }}</div>
+
+                            @if (application.status === 'PROFESSOR_APPROVED') {
+                                <div class="item-state ok">Professor approved, waiting on your advisor</div>
+                            } @else {
+                                <div class="item-state">Waiting on professor</div>
+                                <button type="button" class="link-button danger"
+                                        (click)="removeApplication(application)">
+                                    Withdraw application
+                                </button>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+
+            <h3>Registered</h3>
+            @if (getRegisteredOpportunities().length === 0) {
+                <p class="empty-small">Nothing approved yet.</p>
+            } @else {
+                <ul class="status-list">
+                    @for (application of getRegisteredOpportunities(); track application.id) {
+                        <li>
+                            <div class="item-title">{{ application.title }}</div>
+                            <div class="item-meta">{{ application.professor }}</div>
+                        </li>
+                    }
+                </ul>
+            }
+
+            @if (capstones.length > 0) {
+                <h3>Capstones</h3>
+                <ul class="status-list">
+                    @for (capstone of capstones; track capstone.id) {
+                        <li>
+                            <div class="item-title">{{ capstone.researchIdea }}</div>
+                            <div class="item-meta">Mentor {{ capstone.mentorName }}, {{ capstone.department }}</div>
+                            <div class="item-state">{{ capstone.status }}</div>
+                        </li>
+                    }
+                </ul>
+            }
+
+        </aside>
+
+    </div>
+
+</main>

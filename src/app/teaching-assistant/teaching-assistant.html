@@ -1,0 +1,36 @@
+<article class="item" [class.applied]="applied">
+
+    <div class="main">
+        <h3>{{ opportunity.title }}</h3>
+        <p class="desc">{{ opportunity.description }}</p>
+
+        <dl class="meta">
+            <div><dt>Professor</dt><dd>{{ opportunity.professor }}</dd></div>
+            <div><dt>Department</dt><dd>{{ opportunity.department }}</dd></div>
+            @if (opportunity.format) {
+                <div><dt>Format</dt><dd>{{ opportunity.format }}</dd></div>
+            }
+            @if (opportunity.datesOffered) {
+                <div><dt>Dates</dt><dd>{{ opportunity.datesOffered }}</dd></div>
+            }
+            @if (opportunity.timeBlock) {
+                <div><dt>Time</dt><dd>{{ opportunity.timeBlock }}</dd></div>
+            }
+            @if (opportunity.requirements) {
+                <div><dt>Requirements</dt><dd>{{ opportunity.requirements }}</dd></div>
+            }
+        </dl>
+    </div>
+
+    <div class="side">
+        <p class="spots">{{ opportunity.capacity }} spots</p>
+
+        <button type="button" class="apply-button"
+                [class.applied]="applied"
+                [disabled]="applied"
+                (click)="onApply()">
+            @if (applied) { Applied } @else { Apply }
+        </button>
+    </div>
+
+</article>

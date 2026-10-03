@@ -1,0 +1,111 @@
+<div class="capstone">
+
+    <!-- 1. DEPARTMENT -->
+    <section>
+        <h2>Find a mentor</h2>
+
+        <div class="form-group">
+            <label for="capstoneDepartment">Department</label>
+            <select id="capstoneDepartment"
+                    [(ngModel)]="selectedCapstoneDepartment"
+                    (ngModelChange)="selectCapstoneDepartment()">
+                <option value="">Select a department</option>
+                @for (department of capstoneDepartments; track department) {
+                    <option [value]="department">{{ department }}</option>
+                }
+            </select>
+        </div>
+
+        @if (selectedCapstoneDepartment) {
+            @if (capstoneMentors.length === 0) {
+                <p class="empty">No mentors are available in this department right now.</p>
+            } @else {
+                <ul class="mentor-list">
+                    @for (mentor of capstoneMentors; track mentor.id) {
+                        <li class="mentor"
+                            [class.selected]="selectedCapstoneMentor?.id === mentor.id">
+                            <div>
+                                <h3>{{ mentor.name }}</h3>
+                                <p class="dept">{{ mentor.department }}</p>
+                                <p>{{ mentor.description }}</p>
+                            </div>
+
+                            <button type="button" class="mentor-select-button"
+                                    [class.selected]="selectedCapstoneMentor?.id === mentor.id"
+                                    [disabled]="hasAppliedToMentor(mentor)"
+                                    (click)="selectCapstoneMentor(mentor)">
+                                @if (selectedCapstoneMentor?.id === mentor.id) {
+                                    Unselect
+                                } @else if (hasAppliedToMentor(mentor)) {
+                                    Applied
+                                } @else {
+                                    Select
+                                }
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+    </section>
+
+
+    <!-- 2. PROPOSAL -->
+    @if (selectedCapstoneMentor) {
+        <section>
+            <h2>Propose a project to {{ selectedCapstoneMentor.name }}</h2>
+
+            <div class="form-group">
+                <label for="capstoneResearchIdea">Research idea</label>
+                <input id="capstoneResearchIdea" type="text"
+                       [(ngModel)]="capstoneResearchIdea"
+                       placeholder="One sentence describing the idea">
+            </div>
+
+            <div class="form-group">
+                <label for="capstoneSpecifics">Details</label>
+                <textarea id="capstoneSpecifics" rows="6"
+                          [(ngModel)]="capstoneSpecifics"
+                          placeholder="What you want to study and how you might approach it"></textarea>
+            </div>
+
+            <div class="proposal-buttons">
+                <button type="button" class="submit-button" (click)="submitCapstoneProposal()">
+                    Submit proposal
+                </button>
+                <button type="button" class="link-button" (click)="clearForm()">
+                    Clear form
+                </button>
+            </div>
+        </section>
+    }
+
+
+    <!-- 3. SUBMITTED -->
+    @if (capstones.length > 0) {
+        <section>
+            <h2>Your proposals</h2>
+
+            <ul class="proposal-list">
+                @for (capstone of capstones; track capstone.id) {
+                    <li>
+                        <div>
+                            <h3>{{ capstone.researchIdea }}</h3>
+                            <p class="dept">Mentor: {{ capstone.mentorName }}</p>
+                            <p>{{ capstone.specifics }}</p>
+                        </div>
+
+                        @if (capstone.status === 'SUBMITTED') {
+                            <span class="status-badge pending">Waiting on faculty</span>
+                        } @else if (capstone.status === 'APPROVED') {
+                            <span class="status-badge approved">Approved</span>
+                        } @else if (capstone.status === 'DENIED') {
+                            <span class="status-badge denied">Denied</span>
+                        }
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+
+</div>

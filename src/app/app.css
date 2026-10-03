@@ -1,0 +1,83 @@
+.role-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 32px;
+
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 2px 8px rgba(45, 65, 72, 0.08);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.role-nav-title {
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.role-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.role-buttons a {
+    padding: 9px 18px;
+
+    color: var(--text);
+    background: transparent;
+
+    border-radius: 7px;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.role-buttons a:hover {
+    background: var(--bg);
+    color: var(--primary-dark);
+}
+
+.role-buttons a.active {
+    background: var(--primary);
+    color: white;
+}
+
+.page-content {
+    min-height: calc(100vh - 65px);
+}
+
+
+@media (max-width: 600px) {
+
+    .role-nav {
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 20px;
+    }
+
+    .role-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .role-buttons a {
+        flex: 1;
+        text-align: center;
+        padding: 9px 10px;
+    }
+
+}

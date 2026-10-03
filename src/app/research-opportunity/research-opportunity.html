@@ -1,0 +1,36 @@
+<article class="item" [class.applied]="applied">
+
+    <div class="main">
+        <h3>{{ opportunity.title }}</h3>
+        <p class="desc">{{ opportunity.description }}</p>
+
+        <dl class="meta">
+            @if (opportunity.field) {
+                <div><dt>Field</dt><dd>{{ opportunity.field }}</dd></div>
+            }
+            @if (opportunity.subfield) {
+                <div><dt>Subfield</dt><dd>{{ opportunity.subfield }}</dd></div>
+            }
+            <div><dt>Professor</dt><dd>{{ opportunity.professor }}</dd></div>
+            <div><dt>Department</dt><dd>{{ opportunity.department }}</dd></div>
+            @if (opportunity.requirements) {
+                <div><dt>Requirements</dt><dd>{{ opportunity.requirements }}</dd></div>
+            }
+        </dl>
+    </div>
+
+    <div class="side">
+        <p class="spots">
+            {{ opportunity.capacity }} spots<br>
+            {{ opportunity.applicantCount }} applied
+        </p>
+
+        <button type="button" class="apply-button"
+                [class.applied]="applied"
+                [disabled]="applied || applying"
+                (click)="onApply()">
+            @if (applied) { Applied } @else if (applying) { Applying... } @else { Apply }
+        </button>
+    </div>
+
+</article>

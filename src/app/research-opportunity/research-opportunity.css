@@ -1,0 +1,80 @@
+:host { display: block; }
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.desc {
+  margin: 0 0 14px;
+  max-width: 70ch;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.meta div { display: contents; }
+.meta dt  { color: var(--text-muted); }
+.meta dd  { margin: 0; color: var(--text); }
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 120px;
+}
+
+.spots {
+  margin: 0;
+  text-align: right;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.apply-button {
+  padding: 8px 22px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.apply-button:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); }
+.apply-button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* Applied: quiet and clearly finished, not an error colour */
+.apply-button:disabled {
+  color: var(--success);
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .item { grid-template-columns: 1fr; gap: 16px; }
+  .side { flex-direction: row; align-items: center; }
+  .spots { text-align: left; }
+}

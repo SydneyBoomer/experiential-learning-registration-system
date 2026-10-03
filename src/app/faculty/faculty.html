@@ -1,0 +1,455 @@
+<div class="faculty-page">
+
+    <!-- =====================================
+         FACULTY HEADER
+         ===================================== -->
+
+    <header class="faculty-header">
+
+        <p class="eyebrow">
+            Faculty Dashboard
+        </p>
+
+        <h1>
+            Welcome, Dr. Smith
+        </h1>
+
+        <p class="intro">
+            Manage your Research and Teaching Assistant
+            opportunities and review student applications.
+        </p>
+
+    </header>
+
+
+    <!-- =====================================
+         MY OPPORTUNITIES
+         ===================================== -->
+
+    <section class="faculty-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    My Opportunities
+                </h2>
+
+                <p>
+                    Research and Teaching Assistant
+                    opportunities you are offering.
+                </p>
+
+                <div class="opportunity-filters">
+
+                    <button
+                        type="button"
+                        [class.active]="opportunityFilter === 'ALL'"
+                        (click)="opportunityFilter = 'ALL'"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="button"
+                        [class.active]="opportunityFilter === 'RESEARCH'"
+                        (click)="opportunityFilter = 'RESEARCH'"
+                    >
+                        Research
+                    </button>
+
+                    <button
+                        type="button"
+                        [class.active]="opportunityFilter === 'TA'"
+                        (click)="opportunityFilter = 'TA'"
+                    >
+                        Teaching Assistant
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @if (getFilteredOpportunities().length === 0) {
+
+            <p class="empty-message">
+                You do not currently have any active
+                opportunities.
+            </p>
+
+        } @else {
+
+            <div class="opportunity-list">
+
+                @for (
+                    opportunity of getFilteredOpportunities();
+                    track opportunity.id
+                ) {
+
+                    <details class="faculty-opportunity">
+
+                        <summary class="faculty-opportunity-summary">
+
+                            <div class="opportunity-main">
+
+                                <div class="opportunity-type">
+                                    {{ opportunity.type }}
+                                </div>
+
+                                <h3>
+                                    {{ opportunity.title }}
+                                </h3>
+
+                                <p class="description">
+                                    {{ opportunity.description }}
+                                </p>
+
+                            </div>
+
+                            <div class="opportunity-counts">
+
+                                <div class="count-item">
+
+                                    <strong>
+                                        {{ opportunity.applicantCount }}
+                                    </strong>
+
+                                    <span>
+                                        Applied
+                                    </span>
+
+                                </div>
+
+                                <div class="count-item">
+
+                                    <strong>
+                                        {{ opportunity.acceptedCount }}
+                                    </strong>
+
+                                    <span>
+                                        Accepted
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </summary>
+
+
+                        <div class="opportunity-students">
+
+                            <h4>
+                                Accepted Students
+                            </h4>
+
+                            @if (getAcceptedStudents(opportunity.id).length === 0) {
+
+                                <p class="empty-message">
+                                    No students have been accepted yet.
+                                </p>
+
+                            } @else {
+
+                                @for (
+                                    application of getAcceptedStudents(opportunity.id);
+                                    track application.id
+                                ) {
+
+                                    <div class="accepted-student">
+
+                                        <div>
+
+                                            <h3>
+                                                {{ application.student }}
+                                            </h3>
+
+                                            <p>
+                                                {{ application.status }}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                }
+
+                            }
+
+                        </div>
+
+                    </details>
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+    <!-- =====================================
+         STUDENT APPLICATIONS
+         ===================================== -->
+
+    <section class="faculty-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Student Applications
+                </h2>
+
+                <p>
+                    Review students who have applied
+                    to your opportunities.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (applications.length === 0) {
+
+            <p class="empty-message">
+                No students have applied to your
+                opportunities yet.
+            </p>
+
+        } @else {
+
+            <div class="application-list">
+
+                @for (
+                    application of applications;
+                    track application.id
+                ) {
+
+                    @if (application.status === 'APPLIED') {
+
+                        <div class="application-card">
+
+                            <div class="application-info">
+
+                                <span class="application-type">
+                                    {{ application.type }}
+                                </span>
+
+                                <h3>
+                                    {{ application.student }}
+                                </h3>
+
+                                <p>
+                                    {{ application.title }}
+                                </p>
+
+                            </div>
+
+                            <div class="application-status">
+
+                                <button
+                                    type="button"
+                                    class="approve-button"
+                                    (click)="approveApplication(application)"
+                                >
+                                    Approve
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    }
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+    <!-- =====================================
+         CAPSTONE REQUESTS
+         ===================================== -->
+
+    <section class="faculty-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Capstone Requests
+                </h2>
+
+                <p>
+                    Review students who have requested
+                    you as their capstone mentor.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (getPendingCapstones().length === 0) {
+
+            <p class="empty-message">
+                You do not currently have any pending
+                capstone requests.
+            </p>
+
+        } @else {
+
+            <div class="capstone-request-list">
+
+                @for (
+                    request of getPendingCapstones();
+                    track request.id
+                ) {
+
+                    <div class="capstone-request-card">
+
+                        <div class="capstone-request-info">
+
+                            <span class="capstone-request-label">
+                                CAPSTONE REQUEST
+                            </span>
+
+                            <h3>
+                                {{ request.student }}
+                            </h3>
+
+                            <p class="capstone-research-idea">
+                                {{ request.researchIdea }}
+                            </p>
+
+                            <p class="capstone-specifics">
+                                {{ request.specifics }}
+                            </p>
+
+                        </div>
+
+                        <div class="capstone-request-status">
+
+                            <button
+                                type="button"
+                                class="capstone-approve-button"
+                                (click)="approveCapstone(request)"
+                            >
+                                Approve
+                            </button>
+
+                            <button
+                                type="button"
+                                class="capstone-deny-button"
+                                (click)="denyCapstone(request)"
+                            >
+                                Deny
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+    <!-- =====================================
+         APPROVED CAPSTONES
+         ===================================== -->
+
+    <section class="faculty-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Approved Capstones
+                </h2>
+
+                <p>
+                    Capstone projects you have agreed
+                    to mentor.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (getApprovedCapstones().length === 0) {
+
+            <p class="empty-message">
+                You do not currently have any approved
+                capstone projects.
+            </p>
+
+        } @else {
+
+            <div class="capstone-request-list">
+
+                @for (
+                    request of getApprovedCapstones();
+                    track request.id
+                ) {
+
+                    <div class="capstone-request-card approved-capstone-card">
+
+                        <div class="capstone-request-info">
+
+                            <span class="capstone-request-label">
+                                APPROVED CAPSTONE
+                            </span>
+
+                            <h3>
+                                {{ request.student }}
+                            </h3>
+
+                            <p class="capstone-research-idea">
+                                {{ request.researchIdea }}
+                            </p>
+
+                            <p class="capstone-specifics">
+                                {{ request.specifics }}
+                            </p>
+
+                        </div>
+
+                        <div class="capstone-request-status">
+
+                            <span class="status-badge approved">
+                                Approved
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+
+    </section>
+
+
+</div>

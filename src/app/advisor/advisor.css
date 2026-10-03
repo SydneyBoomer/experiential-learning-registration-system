@@ -1,0 +1,327 @@
+/* =====================================
+   ADVISOR PAGE
+   ===================================== */
+
+.advisor-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 28px 70px;
+}
+
+
+/* =====================================
+   ADVISOR HEADER
+   ===================================== */
+
+.advisor-header {
+    margin-bottom: 38px;
+}
+
+.advisor-header .eyebrow {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.advisor-header h1 {
+    margin: 0 0 12px;
+    color: var(--primary-dark);
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.advisor-header .intro {
+    max-width: 700px;
+    margin: 0;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
+/* =====================================
+   MAIN ADVISOR CARDS
+   ===================================== */
+
+.advisor-section {
+    margin-bottom: 28px;
+    padding: 30px;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(45, 65, 72, 0.07);
+}
+
+
+/* =====================================
+   SECTION HEADINGS
+   ===================================== */
+
+.section-heading {
+    margin-bottom: 24px;
+}
+
+.section-heading h2 {
+    margin: 0 0 7px;
+    color: var(--primary-dark);
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.section-heading p {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   EMPTY MESSAGE
+   ===================================== */
+
+.empty-message {
+    margin: 0;
+    padding: 16px 18px;
+    background: #f8f6f0;
+    border: 1px solid #e1e3df;
+    border-radius: 8px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+
+/* =====================================
+   APPLICATION LIST
+   ===================================== */
+
+.application-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =====================================
+   APPLICATION CARD
+   ===================================== */
+
+.application-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(45, 65, 72, 0.08);
+}
+
+
+/* =====================================
+   APPLICATION INFORMATION
+   ===================================== */
+
+.application-info {
+    flex: 1;
+}
+
+.application-type {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    background: var(--bg);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.application-info h3 {
+    margin: 0 0 5px;
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+}
+
+.application-title {
+    margin: 0 0 12px;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+
+/* =====================================
+   APPLICATION DETAILS
+   ===================================== */
+
+.application-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+}
+
+.application-details span {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.application-details strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+
+/* =====================================
+   APPLICATION ACTION
+   ===================================== */
+
+.application-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-left: 25px;
+    flex-shrink: 0;
+}
+
+
+/* =====================================
+   FACULTY APPROVED BADGE
+   ===================================== */
+
+.faculty-approved {
+    display: inline-block;
+    padding: 6px 10px;
+    background: var(--surface-alt);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   APPROVE BUTTON
+   ===================================== */
+
+.approve-button {
+    padding: 10px 18px;
+    background: var(--primary);
+    color: var(--surface);
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.approve-button:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+
+/* =====================================
+   REGISTERED APPLICATION
+   ===================================== */
+
+.registered-card {
+    border-color: #d2dfdb;
+}
+
+.registered-card:hover {
+    border-color: #bfd2cb;
+}
+
+
+/* =====================================
+   REGISTERED BADGE
+   ===================================== */
+
+.registered-badge {
+    display: inline-block;
+    padding: 8px 13px;
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
+    border-radius: 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+
+/* =====================================
+   RESPONSIVE DESIGN
+   ===================================== */
+
+@media (max-width: 750px) {
+
+    .advisor-page {
+        padding: 35px 18px 55px;
+    }
+
+    .advisor-section {
+        padding: 22px;
+        border-radius: 12px;
+    }
+
+    .advisor-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .application-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .application-action {
+        width: 100%;
+        align-items: flex-start;
+        margin-top: 18px;
+        margin-left: 0;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .advisor-section {
+        padding: 18px;
+    }
+
+    .application-card {
+        padding: 18px;
+    }
+
+    .application-details {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .approve-button {
+        width: 100%;
+    }
+
+}

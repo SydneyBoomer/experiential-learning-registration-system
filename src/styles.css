@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Brand */
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #60a5fa;
+
+  /* Text */
+  --text: #334155;
+  --text-strong: #0f172a;
+  --text-muted: #64748b;
+
+  /* Lines */
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Backgrounds */
+  --bg: #f1f5f9;          /* page background */
+  --bg-warm: #f8fafc;     /* no more cream */
+  --surface: #ffffff;     /* cards, panels */
+  --surface-alt: #f8fafc; /* table stripes, inputs */
+
+  /* Status */
+  --success: #15803d;
+  --success-bg: #f0fdf4;
+  --success-border: #bbf7d0;
+
+  --danger: #dc2626;
+  --danger-dark: #991b1b;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+
+  --warning-bg: #fefce8;
+
+  /* Depth and shape (use these in cards, buttons, inputs) */
+  --radius: 8px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}

@@ -1,12 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+import {
+    RouterModule,
+    RouterOutlet,
+    RouterLink
+} from '@angular/router';
 
 @Component({
-  imports: [RouterOutlet],
-  selector: 'app-root',
-  styleUrl: './app.css',
-  templateUrl: './app.html',
+    imports: [
+        RouterOutlet,
+        RouterModule,
+        RouterLink
+    ],
+    selector: 'app-root',
+    styleUrl: './app.css',
+    templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('experiential-learning-registration-system');
+
+    protected readonly title = signal(
+        'experiential-learning-registration-system'
+    );
+
 }
