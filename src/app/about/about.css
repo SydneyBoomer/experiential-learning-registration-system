@@ -1,5 +1,5 @@
 .about-page {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 32px 24px 64px;
 }
@@ -19,8 +19,8 @@
 /* Two columns: browse on the left, tracker on the right */
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 72px;
   align-items: start;
 }
 
@@ -110,8 +110,8 @@
 .tracker {
   position: sticky;
   top: 24px;
-  padding-left: 24px;
-  border-left: 1px solid var(--border);
+  padding-left: 32px;
+  border-left: 1px solid var(--border-strong);
 }
 
 .tracker h2 {
@@ -121,10 +121,28 @@
 }
 
 .tracker h3 {
-  margin: 24px 0 8px;
-  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 8px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-strong);
+  background: var(--bg);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.group-count {
+  min-width: 22px;
+  padding: 1px 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: 999px;
 }
 
 .status-list { list-style: none; margin: 0; padding: 0; }
@@ -141,6 +159,9 @@
 .item-state { margin-top: 4px; font-size: 0.85rem; color: var(--text); }
 .item-state.ok { color: var(--success); }
 .item-state.no { color: var(--danger-dark); }
+
+.status-list li { padding-left: 12px; }
+.empty-small { padding-left: 12px; }
 
 .empty-small { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
 

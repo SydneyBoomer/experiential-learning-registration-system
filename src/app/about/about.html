@@ -194,7 +194,7 @@
 
             <h2>My applications</h2>
 
-            <h3>Pending</h3>
+            <h3>Pending <span class="group-count">{{ getAppliedOpportunities().length }}</span></h3>
             @if (getAppliedOpportunities().length === 0) {
                 <p class="empty-small">You haven't applied to anything yet.</p>
             } @else {
@@ -218,7 +218,7 @@
                 </ul>
             }
 
-            <h3>Registered</h3>
+            <h3>Registered <span class="group-count">{{ getRegisteredOpportunities().length }}</span></h3>
             @if (getRegisteredOpportunities().length === 0) {
                 <p class="empty-small">Nothing approved yet.</p>
             } @else {
@@ -233,7 +233,7 @@
             }
 
             @if (getRejectedOpportunities().length > 0) {
-                <h3>Not accepted</h3>
+                <h3>Not accepted <span class="group-count">{{ getRejectedOpportunities().length }}</span></h3>
                 <ul class="status-list">
                     @for (application of getRejectedOpportunities(); track application.id) {
                         <li>
@@ -246,7 +246,7 @@
             }
 
             @if (capstones.length > 0) {
-                <h3>Capstones</h3>
+                <h3>Capstones <span class="group-count">{{ capstones.length }}</span></h3>
                 <ul class="status-list">
                     @for (capstone of capstones; track capstone.id) {
                         <li>
