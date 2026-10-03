@@ -26,6 +26,21 @@ export class FacultyComponent implements OnInit {
     applications: FacultyApplication[] = [];
     capstoneRequests: FacultyCapstone[] = [];
 
+    /* Applications whose answers are currently expanded. */
+    expandedApplications = new Set<number>();
+
+    toggleApplication(id: number): void {
+        if (this.expandedApplications.has(id)) {
+            this.expandedApplications.delete(id);
+        } else {
+            this.expandedApplications.add(id);
+        }
+    }
+
+    isApplicationExpanded(id: number): boolean {
+        return this.expandedApplications.has(id);
+    }
+
     /*
      * Demo faculty member.
      *
@@ -159,6 +174,12 @@ export class FacultyComponent implements OnInit {
         }
     });
 }
+
+    getPendingApplications(): FacultyApplication[] {
+        return this.applications.filter(
+            application => application.status === 'APPLIED'
+        );
+    }
 
     getApplicantCount(
         opportunityId: number

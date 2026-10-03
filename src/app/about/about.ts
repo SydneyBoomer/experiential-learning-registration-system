@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 
@@ -565,15 +565,70 @@ export class AboutComponent implements OnInit {
     opportunity: ResearchOpportunity
   ): void {
 
+    // Research applications ask why/experience first.
+    if (opportunity.type === 'RESEARCH') {
+      this.openApplyModal(opportunity);
+      return;
+    }
+
+    this.submitApplication(opportunity);
+  }
+
+
+  /*
+   * Application form popup (research).
+   */
+  applyModalOpportunity: ResearchOpportunity | null = null;
+  applyInterest = '';
+  applyExperience = '';
+
+  openApplyModal(opportunity: ResearchOpportunity): void {
+    this.applyModalOpportunity = opportunity;
+    this.applyInterest = '';
+    this.applyExperience = '';
+  }
+
+  @HostListener('document:keydown.escape')
+  closeApplyModal(): void {
+    this.applyModalOpportunity = null;
+  }
+
+  canSubmitApplyModal(): boolean {
+    return !!this.applyInterest.trim() && !!this.applyExperience.trim();
+  }
+
+  submitApplyModal(): void {
+
+    if (!this.applyModalOpportunity || !this.canSubmitApplyModal()) {
+      return;
+    }
+
+    this.submitApplication(
+      this.applyModalOpportunity,
+      this.applyInterest.trim(),
+      this.applyExperience.trim()
+    );
+  }
+
+
+  submitApplication(
+    opportunity: ResearchOpportunity,
+    interest = '',
+    experience = ''
+  ): void {
+
     this.applicationService
       .apply(
         this.studentId,
-        opportunity.id
+        opportunity.id,
+        interest,
+        experience
       )
       .subscribe({
 
         next: () => {
 
+          this.closeApplyModal();
           this.loadApplications();
           this.loadOpportunities();
         },
@@ -584,6 +639,8 @@ export class AboutComponent implements OnInit {
             'Error applying for opportunity:',
             error
           );
+
+          this.closeApplyModal();
 
           if (error.status === 409) {
 

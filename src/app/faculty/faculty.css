@@ -687,3 +687,139 @@
     }
 
 }
+
+/* =====================================
+   VIEW APPLICATION ANSWERS
+   ===================================== */
+
+.view-link {
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--primary);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-link:hover {
+    text-decoration: underline;
+}
+
+.application-answers {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+}
+
+.application-answers h4 {
+    margin: 0 0 4px;
+    color: var(--text-strong);
+    font-size: 0.85rem;
+}
+
+.application-answers p {
+    margin: 0 0 12px;
+    white-space: pre-wrap;
+    line-height: 1.55;
+}
+
+.application-answers p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =====================================
+   REVIEW BEFORE DECIDING
+   ===================================== */
+
+.review-button {
+    padding: 10px 18px;
+    background: var(--primary);
+    color: var(--surface);
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.review-button:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.review-button.open {
+    background: transparent;
+    color: var(--primary);
+    border-color: var(--border-strong);
+}
+
+.review-button.open:hover {
+    background: var(--bg);
+}
+
+.answers-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-strong);
+}
+
+
+/* =====================================
+   COLLAPSIBLE SECTIONS
+   ===================================== */
+
+.faculty-section > summary.section-heading {
+    position: relative;
+    margin-bottom: 24px;
+    padding-left: 30px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.faculty-section > summary.section-heading::-webkit-details-marker {
+    display: none;
+}
+
+.faculty-section > summary.section-heading::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    top: -2px;
+    color: var(--primary);
+    font-size: 1.8rem;
+    line-height: 1.2;
+    transition: transform 0.2s ease;
+}
+
+.faculty-section[open] > summary.section-heading::before {
+    transform: rotate(90deg);
+}
+
+.faculty-section:not([open]) > summary.section-heading {
+    margin-bottom: 0;
+}
+
+.faculty-section > summary.section-heading:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.section-count {
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    vertical-align: middle;
+}

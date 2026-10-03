@@ -26,50 +26,44 @@
          MY OPPORTUNITIES
          ===================================== -->
 
-    <section class="faculty-section">
+    <details class="faculty-section" open>
 
-        <div class="section-heading">
+        <summary class="section-heading">
+            <h2>
+                My Opportunities
+                <span class="section-count">{{ opportunities.length }}</span>
+            </h2>
+            <p>
+                Research and Teaching Assistant
+                opportunities you are offering.
+            </p>
+        </summary>
 
-            <div>
+        <div class="opportunity-filters">
 
-                <h2>
-                    My Opportunities
-                </h2>
+            <button
+                type="button"
+                [class.active]="opportunityFilter === 'ALL'"
+                (click)="opportunityFilter = 'ALL'"
+            >
+                All
+            </button>
 
-                <p>
-                    Research and Teaching Assistant
-                    opportunities you are offering.
-                </p>
+            <button
+                type="button"
+                [class.active]="opportunityFilter === 'RESEARCH'"
+                (click)="opportunityFilter = 'RESEARCH'"
+            >
+                Research
+            </button>
 
-                <div class="opportunity-filters">
-
-                    <button
-                        type="button"
-                        [class.active]="opportunityFilter === 'ALL'"
-                        (click)="opportunityFilter = 'ALL'"
-                    >
-                        All
-                    </button>
-
-                    <button
-                        type="button"
-                        [class.active]="opportunityFilter === 'RESEARCH'"
-                        (click)="opportunityFilter = 'RESEARCH'"
-                    >
-                        Research
-                    </button>
-
-                    <button
-                        type="button"
-                        [class.active]="opportunityFilter === 'TA'"
-                        (click)="opportunityFilter = 'TA'"
-                    >
-                        Teaching Assistant
-                    </button>
-
-                </div>
-
-            </div>
+            <button
+                type="button"
+                [class.active]="opportunityFilter === 'TA'"
+                (click)="opportunityFilter = 'TA'"
+            >
+                Teaching Assistant
+            </button>
 
         </div>
 
@@ -190,31 +184,22 @@
 
         }
 
-    </section>
+    </details>
 
 
     <!-- =====================================
          STUDENT APPLICATIONS
          ===================================== -->
 
-    <section class="faculty-section">
+    <details class="faculty-section" open>
 
-        <div class="section-heading">
-
-            <div>
-
-                <h2>
-                    Student Applications
-                </h2>
-
-                <p>
-                    Review students who have applied
-                    to your opportunities.
-                </p>
-
-            </div>
-
-        </div>
+        <summary class="section-heading">
+            <h2>
+                Student Applications
+                <span class="section-count">{{ getPendingApplications().length }}</span>
+            </h2>
+            <p>Review students who have applied to your opportunities.</p>
+        </summary>
 
 
         @if (applications.length === 0) {
@@ -251,24 +236,52 @@
                                     {{ application.title }}
                                 </p>
 
+                                @if (isApplicationExpanded(application.id)) {
+
+                                    <div class="application-answers">
+
+                                        <h4>Why they are interested</h4>
+                                        <p>{{ application.interest || 'No answer provided.' }}</p>
+
+                                        <h4>Relevant experience</h4>
+                                        <p>{{ application.experience || 'No answer provided.' }}</p>
+
+                                        <div class="answers-actions">
+
+                                            <button
+                                                type="button"
+                                                class="approve-button"
+                                                (click)="approveApplication(application)"
+                                            >
+                                                Approve
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="deny-button"
+                                                (click)="denyApplication(application)"
+                                            >
+                                                Deny
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                }
+
                             </div>
 
                             <div class="application-status">
 
                                 <button
                                     type="button"
-                                    class="approve-button"
-                                    (click)="approveApplication(application)"
+                                    class="review-button"
+                                    [class.open]="isApplicationExpanded(application.id)"
+                                    [attr.aria-expanded]="isApplicationExpanded(application.id)"
+                                    (click)="toggleApplication(application.id)"
                                 >
-                                    Approve
-                                </button>
-
-                                <button
-                                    type="button"
-                                    class="deny-button"
-                                    (click)="denyApplication(application)"
-                                >
-                                    Deny
+                                    {{ isApplicationExpanded(application.id) ? 'Close' : 'Review application' }}
                                 </button>
 
                             </div>
@@ -283,31 +296,22 @@
 
         }
 
-    </section>
+    </details>
 
 
     <!-- =====================================
          CAPSTONE REQUESTS
          ===================================== -->
 
-    <section class="faculty-section">
+    <details class="faculty-section" open>
 
-        <div class="section-heading">
-
-            <div>
-
-                <h2>
-                    Capstone Requests
-                </h2>
-
-                <p>
-                    Review students who have requested
-                    you as their capstone mentor.
-                </p>
-
-            </div>
-
-        </div>
+        <summary class="section-heading">
+            <h2>
+                Capstone Requests
+                <span class="section-count">{{ getPendingCapstones().length }}</span>
+            </h2>
+            <p>Review students who have requested you as their capstone mentor.</p>
+        </summary>
 
 
         @if (getPendingCapstones().length === 0) {
@@ -376,31 +380,22 @@
 
         }
 
-    </section>
+    </details>
 
 
     <!-- =====================================
          APPROVED CAPSTONES
          ===================================== -->
 
-    <section class="faculty-section">
+    <details class="faculty-section" open>
 
-        <div class="section-heading">
-
-            <div>
-
-                <h2>
-                    Approved Capstones
-                </h2>
-
-                <p>
-                    Capstone projects you have agreed
-                    to mentor.
-                </p>
-
-            </div>
-
-        </div>
+        <summary class="section-heading">
+            <h2>
+                Approved Capstones
+                <span class="section-count">{{ getApprovedCapstones().length }}</span>
+            </h2>
+            <p>Capstone projects you have agreed to mentor.</p>
+        </summary>
 
 
         @if (getApprovedCapstones().length === 0) {
@@ -457,7 +452,7 @@
 
         }
 
-    </section>
+    </details>
 
 
 </div>

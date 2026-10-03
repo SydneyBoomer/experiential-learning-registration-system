@@ -19,14 +19,18 @@ export class ApplicationService {
 
   apply(
     studentId: number,
-    opportunityId: number
+    opportunityId: number,
+    interest = '',
+    experience = ''
   ): Observable<any> {
 
     return this.http.post(
       this.apiUrl,
       {
         studentId,
-        opportunityId
+        opportunityId,
+        interest,
+        experience
       }
     );
   }

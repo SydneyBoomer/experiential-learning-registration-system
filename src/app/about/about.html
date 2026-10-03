@@ -262,4 +262,42 @@
 
     </div>
 
+
+    <!-- APPLICATION POPUP (research) -->
+    @if (applyModalOpportunity) {
+        <div class="modal-backdrop" (click)="closeApplyModal()">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="apply-title"
+                 (click)="$event.stopPropagation()">
+
+                <h2 id="apply-title">Apply to {{ applyModalOpportunity.title }}</h2>
+                <p class="modal-sub">{{ applyModalOpportunity.professor }} will read your answers.</p>
+
+                <div class="form-field">
+                    <label for="applyInterest">Why are you interested in this opportunity?</label>
+                    <textarea id="applyInterest" rows="4" maxlength="2000" autofocus
+                              [(ngModel)]="applyInterest"></textarea>
+                </div>
+
+                <div class="form-field">
+                    <label for="applyExperience">What relevant experience do you have?</label>
+                    <textarea id="applyExperience" rows="4" maxlength="2000"
+                              placeholder="Courses, projects, jobs. If none yet, say so."
+                              [(ngModel)]="applyExperience"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="primary-button"
+                            [disabled]="!canSubmitApplyModal()"
+                            (click)="submitApplyModal()">
+                        Submit application
+                    </button>
+                    <button type="button" class="link-button" (click)="closeApplyModal()">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    }
+
 </main>

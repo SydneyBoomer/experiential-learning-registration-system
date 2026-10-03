@@ -7,4 +7,6 @@ export interface FacultyApplication {
     student: string;
     title: string;
     type: 'RESEARCH' | 'TA';
+    interest?: string;
+    experience?: string;
 }

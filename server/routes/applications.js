@@ -13,19 +13,25 @@ router.post('/', (req, res) => {
         opportunityId
     } = req.body;
 
+    // Optional answers from the application form (research).
+    const interest = (req.body.interest || '').trim().slice(0, 2000);
+    const experience = (req.body.experience || '').trim().slice(0, 2000);
+
     const sql = `
         INSERT INTO applications (
             student_id,
             opportunity_id,
-            status
+            status,
+            interest,
+            experience
         )
 
-        VALUES (?, ?, 'APPLIED')
+        VALUES (?, ?, 'APPLIED', ?, ?)
     `;
 
     db.run(
         sql,
-        [studentId, opportunityId],
+        [studentId, opportunityId, interest, experience],
         function(err) {
 
             if (err) {
@@ -109,6 +115,8 @@ router.get('/professor/:professorId', (req, res) => {
             applications.opportunity_id AS opportunityId,
             applications.status,
             applications.applied_at AS appliedAt,
+            applications.interest,
+            applications.experience,
             opportunities.title,
             opportunities.type,
             users.name AS student
