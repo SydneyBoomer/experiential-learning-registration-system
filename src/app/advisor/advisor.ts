@@ -42,7 +42,7 @@ export class AdvisorComponent implements OnInit {
      */
     advisorId = 3;
 
-    advisorName = 'Dr. Advisor';
+    advisorName = 'Alex Johnson';
 
 
     /*
