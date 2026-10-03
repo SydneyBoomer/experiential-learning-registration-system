@@ -206,8 +206,10 @@
 
                             @if (application.status === 'PROFESSOR_APPROVED') {
                                 <div class="item-state ok">Professor approved, waiting on your advisor</div>
+                            } @else if (application.status === 'ADVISOR_APPROVED') {
+                                <div class="item-state ok">Advisor approved, waiting on professor</div>
                             } @else {
-                                <div class="item-state">Waiting on professor</div>
+                                <div class="item-state">Waiting on professor and advisor</div>
                                 <button type="button" class="link-button danger"
                                         (click)="removeApplication(application)">
                                     Withdraw application

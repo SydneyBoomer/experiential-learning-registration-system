@@ -23,6 +23,130 @@
 
 
     <!-- =====================================
+         POST AN OPPORTUNITY
+         ===================================== -->
+
+    <details class="faculty-section">
+
+        <summary class="section-heading">
+            <h2>Post an Opportunity</h2>
+            <p>Offer a new research project or teaching assistant position to students.</p>
+        </summary>
+
+        <div class="post-form">
+
+            <div class="type-switch" role="group" aria-label="Opportunity type">
+                <button type="button"
+                        [class.active]="newOpportunity.type === 'RESEARCH'"
+                        (click)="newOpportunity.type = 'RESEARCH'">
+                    Research
+                </button>
+                <button type="button"
+                        [class.active]="newOpportunity.type === 'TA'"
+                        (click)="newOpportunity.type = 'TA'">
+                    Teaching assistant
+                </button>
+            </div>
+
+            <div class="post-grid">
+
+                <label class="wide">
+                    Title
+                    <input type="text" [(ngModel)]="newOpportunity.title"
+                           placeholder="e.g. Network Security Research">
+                </label>
+
+                <label class="wide">
+                    Description
+                    <textarea rows="4" [(ngModel)]="newOpportunity.description"
+                              placeholder="What will the student work on?"></textarea>
+                </label>
+
+                <label>
+                    Department
+                    <input type="text" list="dl-department" [(ngModel)]="newOpportunity.department">
+                </label>
+
+                <label>
+                    Semester
+                    <input type="text" list="dl-semester" [(ngModel)]="newOpportunity.semester"
+                           placeholder="e.g. Fall 2026">
+                </label>
+
+                <label>
+                    Field @if (newOpportunity.type === 'TA') { <span class="optional">(optional)</span> }
+                    <input type="text" list="dl-field" [(ngModel)]="newOpportunity.field">
+                </label>
+
+                <label>
+                    Subfield <span class="optional">(optional)</span>
+                    <input type="text" list="dl-subfield" [(ngModel)]="newOpportunity.subfield">
+                </label>
+
+                <label>
+                    Capacity
+                    <input type="number" min="1" [(ngModel)]="newOpportunity.capacity">
+                </label>
+
+                <label>
+                    Requirements <span class="optional">(optional)</span>
+                    <input type="text" [(ngModel)]="newOpportunity.requirements"
+                           placeholder="e.g. CSC 225">
+                </label>
+
+                @if (newOpportunity.type === 'TA') {
+
+                    <label>
+                        Format
+                        <input type="text" list="dl-format" [(ngModel)]="newOpportunity.format"
+                               placeholder="e.g. In person">
+                    </label>
+
+                    <label>
+                        Dates offered
+                        <input type="text" list="dl-dates" [(ngModel)]="newOpportunity.datesOffered">
+                    </label>
+
+                    <label>
+                        Time block
+                        <input type="text" list="dl-time" [(ngModel)]="newOpportunity.timeBlock"
+                               placeholder="e.g. MWF 10:00-11:15">
+                    </label>
+
+                }
+
+            </div>
+
+            <datalist id="dl-department">@for (v of suggestions('department'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-semester">@for (v of suggestions('semester'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-field">@for (v of suggestions('field'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-subfield">@for (v of suggestions('subfield'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-format">@for (v of suggestions('format'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-dates">@for (v of suggestions('datesOffered'); track v) { <option [value]="v"></option> }</datalist>
+            <datalist id="dl-time">@for (v of suggestions('timeBlock'); track v) { <option [value]="v"></option> }</datalist>
+
+            @if (postError) {
+                <p class="post-message error" role="alert">{{ postError }}</p>
+            }
+
+            @if (postSuccess) {
+                <p class="post-message success" role="status">{{ postSuccess }}</p>
+            }
+
+            <div class="post-actions">
+                <button type="button" class="approve-button"
+                        [disabled]="!canPostOpportunity() || posting"
+                        (click)="submitNewOpportunity()">
+                    {{ posting ? 'Posting...' : 'Post opportunity' }}
+                </button>
+            </div>
+
+        </div>
+
+    </details>
+
+
+    <!-- =====================================
          MY OPPORTUNITIES
          ===================================== -->
 
@@ -218,7 +342,7 @@
                     track application.id
                 ) {
 
-                    @if (application.status === 'APPLIED') {
+                    @if (application.status === 'APPLIED' || application.status === 'ADVISOR_APPROVED') {
 
                         <div class="application-card">
 
@@ -227,6 +351,10 @@
                                 <span class="application-type">
                                     {{ application.type }}
                                 </span>
+
+                                @if (application.status === 'ADVISOR_APPROVED') {
+                                    <span class="approved-tag">Advisor approved</span>
+                                }
 
                                 <h3>
                                     {{ application.student }}

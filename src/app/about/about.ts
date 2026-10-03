@@ -507,7 +507,8 @@ export class AboutComponent implements OnInit {
     return this.applications.filter(
       application =>
         application.status === 'APPLIED' ||
-        application.status === 'PROFESSOR_APPROVED'
+        application.status === 'PROFESSOR_APPROVED' ||
+        application.status === 'ADVISOR_APPROVED'
     );
   }
 

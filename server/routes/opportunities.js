@@ -31,6 +31,33 @@ router.post('/', (req, res) => {
     const opportunityType =
         type === 'TA' ? 'TA' : 'RESEARCH';
 
+    // Basic validation so bad forms get a clear message.
+    const capacityNumber = Number(capacity);
+
+    if (
+        !title || !title.trim() ||
+        !description || !description.trim() ||
+        !department || !department.trim() ||
+        !professorId
+    ) {
+        return res.status(400).json({
+            error:
+                'Title, description, department and professor are required.'
+        });
+    }
+
+    if (!Number.isInteger(capacityNumber) || capacityNumber < 1) {
+        return res.status(400).json({
+            error: 'Capacity must be a whole number of at least 1.'
+        });
+    }
+
+    if (opportunityType === 'RESEARCH' && !(field && field.trim())) {
+        return res.status(400).json({
+            error: 'Research opportunities need a field.'
+        });
+    }
+
 
     const sql = `
         INSERT INTO opportunities (
@@ -56,20 +83,20 @@ router.post('/', (req, res) => {
 
 
     db.run(sql, [
-        title,
-        description,
+        title.trim(),
+        description.trim(),
         opportunityType,
-        field,
-        subfield,
+        field ? field.trim() : null,
+        subfield ? subfield.trim() : null,
         professorId,
-        department,
-        requirements,
-        capacity,
+        department.trim(),
+        requirements ? requirements.trim() : null,
+        capacityNumber,
         acceptsCapstoneStudents ? 1 : 0,
-        semester,
-        format,
-        datesOffered,
-        timeBlock
+        semester ? semester.trim() : null,
+        format ? format.trim() : null,
+        datesOffered ? datesOffered.trim() : null,
+        timeBlock ? timeBlock.trim() : null
     ], function(err) {
 
         if (err) {
@@ -113,6 +140,7 @@ router.get('/', (req, res) => {
             SUM(
                 CASE
                     WHEN applications.status = 'APPLIED'
+                        OR applications.status = 'ADVISOR_APPROVED'
                     THEN 1
                     ELSE 0
                 END

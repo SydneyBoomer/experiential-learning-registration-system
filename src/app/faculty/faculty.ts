@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+
 import {
     Component,
     OnInit,
@@ -15,7 +17,7 @@ import { CapstoneService } from '../services/capstone.service';
 
 @Component({
     selector: 'app-faculty',
-    imports: [],
+    imports: [FormsModule],
     templateUrl: './faculty.html',
     styleUrl: './faculty.css'
 })
@@ -23,6 +25,7 @@ export class FacultyComponent implements OnInit {
 
     opportunityFilter: 'ALL' | 'RESEARCH' | 'TA' = 'ALL';
     opportunities: ResearchOpportunity[] = [];
+    allOpportunities: ResearchOpportunity[] = [];
     applications: FacultyApplication[] = [];
     capstoneRequests: FacultyCapstone[] = [];
 
@@ -48,6 +51,107 @@ export class FacultyComponent implements OnInit {
      * in the current database.
      */
     facultyId = 1;
+
+    /*
+     * -------------------------
+     * POST A NEW OPPORTUNITY
+     * -------------------------
+     */
+
+    newOpportunity = this.blankOpportunity();
+    postError = '';
+    postSuccess = '';
+    posting = false;
+
+    blankOpportunity() {
+        return {
+            type: 'RESEARCH' as 'RESEARCH' | 'TA',
+            title: '',
+            description: '',
+            department: '',
+            semester: '',
+            capacity: 1,
+            requirements: '',
+            field: '',
+            subfield: '',
+            format: '',
+            datesOffered: '',
+            timeBlock: ''
+        };
+    }
+
+    /* Existing values, offered as suggestions so spelling stays consistent. */
+    suggestions(
+        key: 'department' | 'field' | 'subfield' | 'semester' |
+             'format' | 'datesOffered' | 'timeBlock'
+    ): string[] {
+        return [
+            ...new Set(
+                this.allOpportunities
+                    .map(opportunity => opportunity[key] as string | undefined)
+                    .filter((value): value is string => !!value)
+            )
+        ].sort();
+    }
+
+    canPostOpportunity(): boolean {
+        const f = this.newOpportunity;
+
+        return (
+            !!f.title.trim() &&
+            !!f.description.trim() &&
+            !!f.department.trim() &&
+            Number(f.capacity) >= 1 &&
+            (f.type === 'TA' || !!f.field.trim())
+        );
+    }
+
+    submitNewOpportunity(): void {
+
+        if (!this.canPostOpportunity() || this.posting) {
+            return;
+        }
+
+        const f = this.newOpportunity;
+
+        this.posting = true;
+        this.postError = '';
+        this.postSuccess = '';
+
+        this.researchOpportunityService
+            .createOpportunity({
+                type: f.type,
+                title: f.title,
+                description: f.description,
+                department: f.department,
+                capacity: Number(f.capacity),
+                requirements: f.requirements,
+                field: f.field,
+                subfield: f.subfield,
+                semester: f.semester,
+                format: f.format,
+                datesOffered: f.datesOffered,
+                timeBlock: f.timeBlock,
+                professorId: this.facultyId
+            })
+            .subscribe({
+                next: () => {
+                    this.posting = false;
+                    this.postSuccess =
+                        `"${f.title.trim()}" is posted and visible to students.`;
+                    this.newOpportunity = this.blankOpportunity();
+                    this.loadOpportunities();
+                    this.changeDetectorRef.detectChanges();
+                },
+                error: error => {
+                    this.posting = false;
+                    this.postError =
+                        error?.error?.error ||
+                        `Could not post the opportunity (HTTP ${error.status}).`;
+                    this.changeDetectorRef.detectChanges();
+                }
+            });
+    }
 
     getFilteredOpportunities(): ResearchOpportunity[] {
     if (this.opportunityFilter === 'ALL') {
@@ -81,6 +185,8 @@ export class FacultyComponent implements OnInit {
     loadOpportunities(): void {
         this.researchOpportunityService.getAllOpportunities().subscribe({
             next: opportunities => {
+                this.allOpportunities = opportunities;
+
                 this.opportunities = opportunities.filter(
                     opportunity => opportunity.professor === 'Dr. Smith'
                 );
@@ -177,7 +283,9 @@ export class FacultyComponent implements OnInit {
 
     getPendingApplications(): FacultyApplication[] {
         return this.applications.filter(
-            application => application.status === 'APPLIED'
+            application =>
+                application.status === 'APPLIED' ||
+                application.status === 'ADVISOR_APPROVED'
         );
     }
 

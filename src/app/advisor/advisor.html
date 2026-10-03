@@ -1,24 +1,18 @@
 <div class="advisor-page">
 
-
     <!-- =====================================
-         ADVISOR HEADER
+         HEADER
          ===================================== -->
 
     <header class="advisor-header">
 
-        <p class="eyebrow">
-            Advisor Dashboard
-        </p>
+        <p class="eyebrow">Advisor Dashboard</p>
 
-        <h1>
-            Welcome, Dr. Advisor
-        </h1>
+        <h1>{{ advisorName }}</h1>
 
         <p class="intro">
-            Review faculty-approved applications and
-            manage student experiential-learning
-            registrations.
+            Review student applications as they come in, and browse every
+            research and teaching assistant opportunity in one place.
         </p>
 
     </header>
@@ -28,218 +22,340 @@
          WAITING FOR APPROVAL
          ===================================== -->
 
-    <section class="advisor-section">
+    <details class="advisor-section" open>
 
-        <div class="section-heading">
-
-            <div>
-
-                <h2>
-                    Waiting for Advisor Approval
-                </h2>
-
-                <p>
-                    Applications that have been approved
-                    by faculty and are waiting for your
-                    approval.
-                </p>
-
-            </div>
-
-        </div>
+        <summary class="section-heading">
+            <h2>
+                Waiting for Advisor Approval
+                <span class="section-count">{{ pendingApplications.length }}</span>
+            </h2>
+            <p>Applications that still need your approval. Faculty may or may not have approved yet.</p>
+        </summary>
 
 
         @if (pendingApplications.length === 0) {
 
             <p class="empty-message">
-                There are currently no applications
-                waiting for advisor approval.
+                There are currently no applications waiting for advisor approval.
             </p>
 
         } @else {
 
-            <div class="application-list">
+            <div class="advisor-filters">
 
-                @for (
-                    application of pendingApplications;
-                    track application.id
-                ) {
+                <label>
+                    Student
+                    <input
+                        type="search"
+                        placeholder="Search by student name"
+                        [(ngModel)]="pendingSearch"
+                    >
+                </label>
 
-                    <div class="application-card">
+                @if (pendingSearch) {
+                    <button type="button" class="link-button" (click)="pendingSearch = ''">
+                        Clear
+                    </button>
+                }
+
+                <span class="result-count">
+                    Showing {{ getFilteredPending().length }} of {{ pendingApplications.length }}
+                </span>
+
+            </div>
 
 
-                        <div class="application-info">
+            @if (getFilteredPending().length === 0) {
 
-                            <span class="application-type">
-                                {{ application.type }}
-                            </span>
+                <p class="empty-message">
+                    No waiting applications match that student name.
+                </p>
 
-                            <h3>
-                                {{ application.student }}
-                            </h3>
+            } @else {
 
-                            <p class="application-title">
-                                {{ application.title }}
-                            </p>
+                <div class="application-list">
 
-                            <div class="application-details">
+                    @for (application of getFilteredPending(); track application.id) {
 
-                                <span>
-                                    <strong>
-                                        Professor:
-                                    </strong>
+                        <div class="application-card">
 
-                                    {{ application.professor }}
-                                </span>
+                            <div class="application-info">
 
-                                <span>
-                                    <strong>
-                                        Department:
-                                    </strong>
+                                <span class="application-type">{{ application.type }}</span>
 
-                                    {{ application.department }}
-                                </span>
+                                <h3>{{ application.student }}</h3>
+
+                                <p class="application-title">{{ application.title }}</p>
+
+                                <div class="application-details">
+                                    <span><strong>Professor:</strong> {{ application.professor }}</span>
+                                    <span><strong>Department:</strong> {{ application.department }}</span>
+                                </div>
+
+                            </div>
+
+                            <div class="application-action">
+
+                                @if (application.status === 'PROFESSOR_APPROVED') {
+                                    <span class="faculty-approved">Faculty approved</span>
+                                } @else {
+                                    <span class="faculty-pending">Faculty pending</span>
+                                }
+
+                                <button
+                                    type="button"
+                                    class="approve-button"
+                                    (click)="approveApplication(application)"
+                                >
+                                    Approve Registration
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="deny-button"
+                                    (click)="denyApplication(application)"
+                                >
+                                    Deny
+                                </button>
 
                             </div>
 
                         </div>
 
+                    }
 
-                        <div class="application-action">
+                </div>
 
-                            <span class="faculty-approved">
-                                Faculty Approved
-                            </span>
-
-                            <button
-                                type="button"
-                                class="approve-button"
-                                (click)="approveApplication(application)"
-                            >
-                                Approve Registration
-                            </button>
-
-                            <button
-                                type="button"
-                                class="deny-button"
-                                (click)="denyApplication(application)"
-                            >
-                                Deny
-                            </button>
-
-                        </div>
-
-
-                    </div>
-
-                }
-
-            </div>
+            }
 
         }
 
-    </section>
+    </details>
 
 
     <!-- =====================================
-         REGISTERED APPLICATIONS
+         ALL OPPORTUNITIES (database view)
          ===================================== -->
 
-    <section class="advisor-section">
+    <details class="advisor-section" open>
 
-        <div class="section-heading">
+        <summary class="section-heading">
+            <h2>
+                All Opportunities
+                <span class="section-count">{{ opportunities.length }}</span>
+            </h2>
+            <p>Every research and teaching assistant opportunity. Filter, sort, and open a row for details.</p>
+        </summary>
 
-            <div>
 
-                <h2>
-                    Registered Students
-                </h2>
+        <div class="advisor-filters">
 
-                <p>
-                    Students whose experiential-learning
-                    applications have completed the
-                    approval process.
-                </p>
+            <label>
+                Search title
+                <input type="search" placeholder="Title contains..." [(ngModel)]="oppFilters.search">
+            </label>
 
-            </div>
+            <label>
+                Type
+                <select [(ngModel)]="oppFilters.type">
+                    <option value="">All types</option>
+                    <option value="RESEARCH">Research</option>
+                    <option value="TA">Teaching assistant</option>
+                </select>
+            </label>
+
+            <label>
+                Professor
+                <select [(ngModel)]="oppFilters.professor">
+                    <option value="">All professors</option>
+                    @for (value of getOptions('professor'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Department
+                <select [(ngModel)]="oppFilters.department">
+                    <option value="">All departments</option>
+                    @for (value of getOptions('department'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Field
+                <select [(ngModel)]="oppFilters.field">
+                    <option value="">All fields</option>
+                    @for (value of getOptions('field'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Subfield
+                <select [(ngModel)]="oppFilters.subfield">
+                    <option value="">All subfields</option>
+                    @for (value of getOptions('subfield'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Semester
+                <select [(ngModel)]="oppFilters.semester">
+                    <option value="">All semesters</option>
+                    @for (value of getOptions('semester'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Dates offered
+                <select [(ngModel)]="oppFilters.datesOffered">
+                    <option value="">All dates</option>
+                    @for (value of getOptions('datesOffered'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Format
+                <select [(ngModel)]="oppFilters.format">
+                    <option value="">All formats</option>
+                    @for (value of getOptions('format'); track value) {
+                        <option [value]="value">{{ value }}</option>
+                    }
+                </select>
+            </label>
+
+            <button type="button" class="link-button" (click)="clearOppFilters()">
+                Clear filters
+            </button>
+
+            <span class="result-count">
+                Showing {{ getVisibleOpportunities().length }} of {{ opportunities.length }}
+            </span>
 
         </div>
 
 
-        @if (registeredApplications.length === 0) {
+        @if (getVisibleOpportunities().length === 0) {
 
-            <p class="empty-message">
-                There are currently no registered
-                students.
-            </p>
+            <p class="empty-message">No opportunities match these filters.</p>
 
         } @else {
 
-            <div class="application-list">
+            <div class="table-wrap">
 
-                @for (
-                    application of registeredApplications;
-                    track application.id
-                ) {
+                <table class="data-table">
 
-                    <div class="application-card registered-card">
+                    <thead>
+                        <tr>
+                            <th><button type="button" class="sort-button" (click)="sortBy('title')">Title{{ sortArrow('title') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('type')">Type{{ sortArrow('type') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('professor')">Professor{{ sortArrow('professor') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('department')">Department{{ sortArrow('department') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('semester')">Semester{{ sortArrow('semester') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('field')">Field{{ sortArrow('field') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('subfield')">Subfield{{ sortArrow('subfield') }}</button></th>
+                            <th><button type="button" class="sort-button" (click)="sortBy('datesOffered')">Dates{{ sortArrow('datesOffered') }}</button></th>
+                            <th class="num"><button type="button" class="sort-button" (click)="sortBy('capacity')">Capacity{{ sortArrow('capacity') }}</button></th>
+                            <th class="num"><button type="button" class="sort-button" (click)="sortBy('applicantCount')">Applied{{ sortArrow('applicantCount') }}</button></th>
+                            <th class="num"><button type="button" class="sort-button" (click)="sortBy('acceptedCount')">Accepted{{ sortArrow('acceptedCount') }}</button></th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
 
-                        <div class="application-info">
+                        @for (opportunity of getVisibleOpportunities(); track opportunity.id) {
 
-                            <span class="application-type">
-                                {{ application.type }}
-                            </span>
+                            <tr [class.open]="isRowOpen(opportunity.id)">
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="row-toggle"
+                                        [attr.aria-expanded]="isRowOpen(opportunity.id)"
+                                        (click)="toggleRow(opportunity.id)"
+                                    >
+                                        <span class="chevron">{{ isRowOpen(opportunity.id) ? '▾' : '▸' }}</span>
+                                        {{ opportunity.title }}
+                                    </button>
+                                </td>
+                                <td><span class="type-pill">{{ opportunity.type === 'TA' ? 'TA' : 'Research' }}</span></td>
+                                <td>{{ opportunity.professor }}</td>
+                                <td>{{ opportunity.department }}</td>
+                                <td>{{ opportunity.semester || '—' }}</td>
+                                <td>{{ opportunity.field || '—' }}</td>
+                                <td>{{ opportunity.subfield || '—' }}</td>
+                                <td>{{ opportunity.datesOffered || '—' }}</td>
+                                <td class="num">{{ opportunity.capacity }}</td>
+                                <td class="num">{{ opportunity.applicantCount }}</td>
+                                <td class="num">{{ opportunity.acceptedCount }}</td>
+                            </tr>
 
-                            <h3>
-                                {{ application.student }}
-                            </h3>
+                            @if (isRowOpen(opportunity.id)) {
 
-                            <p class="application-title">
-                                {{ application.title }}
-                            </p>
+                                <tr class="detail-row">
+                                    <td colspan="11">
 
-                            <div class="application-details">
+                                        <div class="detail-grid">
 
-                                <span>
-                                    <strong>
-                                        Professor:
-                                    </strong>
+                                            <div>
+                                                <h4>Description</h4>
+                                                <p>{{ opportunity.description }}</p>
+                                            </div>
 
-                                    {{ application.professor }}
-                                </span>
+                                            <div>
+                                                <h4>Requirements</h4>
+                                                <p>{{ opportunity.requirements || 'None listed.' }}</p>
 
-                                <span>
-                                    <strong>
-                                        Department:
-                                    </strong>
+                                                @if (opportunity.format || opportunity.timeBlock) {
+                                                    <h4>Schedule</h4>
+                                                    <p>
+                                                        {{ opportunity.format }}
+                                                        @if (opportunity.format && opportunity.timeBlock) { · }
+                                                        {{ opportunity.timeBlock }}
+                                                    </p>
+                                                }
+                                            </div>
 
-                                    {{ application.department }}
-                                </span>
+                                            <div>
+                                                <h4>Registered students ({{ getRegisteredFor(opportunity.id).length }})</h4>
 
-                            </div>
+                                                @if (getRegisteredFor(opportunity.id).length === 0) {
+                                                    <p>No registered students yet.</p>
+                                                } @else {
+                                                    <ul class="student-list">
+                                                        @for (reg of getRegisteredFor(opportunity.id); track reg.id) {
+                                                            <li>{{ reg.student }}</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
 
-                        </div>
+                                        </div>
 
+                                    </td>
+                                </tr>
 
-                        <div class="application-action">
+                            }
 
-                            <span class="registered-badge">
-                                Registered
-                            </span>
+                        }
 
-                        </div>
+                    </tbody>
 
-
-                    </div>
-
-                }
+                </table>
 
             </div>
 
         }
 
-    </section>
-
+    </details>
 
 </div>

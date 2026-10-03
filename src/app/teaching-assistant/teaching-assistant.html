@@ -7,6 +7,9 @@
         <dl class="meta">
             <div><dt>Professor</dt><dd>{{ opportunity.professor }}</dd></div>
             <div><dt>Department</dt><dd>{{ opportunity.department }}</dd></div>
+            @if (opportunity.semester) {
+                <div><dt>Semester</dt><dd>{{ opportunity.semester }}</dd></div>
+            }
             @if (opportunity.format) {
                 <div><dt>Format</dt><dd>{{ opportunity.format }}</dd></div>
             }

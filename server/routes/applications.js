@@ -183,9 +183,9 @@ router.get('/advisor/pending', (req, res) => {
         JOIN users AS professors
             ON opportunities.professor_id = professors.id
 
-        WHERE applications.status = 'PROFESSOR_APPROVED'
+        WHERE applications.status IN ('APPLIED', 'PROFESSOR_APPROVED')
 
-        ORDER BY applications.professor_approved_at DESC
+        ORDER BY applications.applied_at DESC
     `;
 
     db.all(sql, [], (err, rows) => {
@@ -304,11 +304,14 @@ router.put('/:id/professor-approve', (req, res) => {
         UPDATE applications
 
         SET
-            status = 'PROFESSOR_APPROVED',
+            status = CASE
+                WHEN status = 'ADVISOR_APPROVED' THEN 'REGISTERED'
+                ELSE 'PROFESSOR_APPROVED'
+            END,
             professor_approved_at = CURRENT_TIMESTAMP
 
         WHERE id = ?
-        AND status = 'APPLIED'
+        AND status IN ('APPLIED', 'ADVISOR_APPROVED')
     `;
 
     db.run(
@@ -347,11 +350,14 @@ router.put('/:id/advisor-approve', (req, res) => {
         UPDATE applications
 
         SET
-            status = 'REGISTERED',
+            status = CASE
+                WHEN status = 'PROFESSOR_APPROVED' THEN 'REGISTERED'
+                ELSE 'ADVISOR_APPROVED'
+            END,
             advisor_approved_at = CURRENT_TIMESTAMP
 
         WHERE id = ?
-        AND status = 'PROFESSOR_APPROVED'
+        AND status IN ('APPLIED', 'PROFESSOR_APPROVED')
     `;
 
     db.run(
@@ -368,13 +374,13 @@ router.put('/:id/advisor-approve', (req, res) => {
             if (this.changes === 0) {
                 return res.status(400).json({
                     error:
-                        'Application must have professor approval first.'
+                        'Application cannot be approved.'
                 });
             }
 
             res.json({
                 message:
-                    'Advisor approval recorded. Student is now registered.'
+                    'Advisor approval recorded.'
             });
         }
     );
@@ -392,7 +398,7 @@ router.put('/:id/professor-deny', (req, res) => {
         SET status = 'REJECTED'
 
         WHERE id = ?
-        AND status = 'APPLIED'
+        AND status IN ('APPLIED', 'ADVISOR_APPROVED')
     `;
 
     db.run(
@@ -436,7 +442,7 @@ router.put('/:id/advisor-deny', (req, res) => {
         SET status = 'REJECTED'
 
         WHERE id = ?
-        AND status = 'PROFESSOR_APPROVED'
+        AND status IN ('APPLIED', 'PROFESSOR_APPROVED')
     `;
 
     db.run(

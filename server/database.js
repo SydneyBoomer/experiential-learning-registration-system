@@ -41,6 +41,10 @@ db.serialize(() => {
         capacity INTEGER NOT NULL,
 
         semester TEXT,
+        format TEXT,
+        dates_offered TEXT,
+        time_block TEXT,
+        accepts_capstone_students INTEGER NOT NULL DEFAULT 0,
         active INTEGER NOT NULL DEFAULT 1,
 
         FOREIGN KEY (professor_id)
@@ -70,6 +74,8 @@ db.serialize(() => {
             applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             professor_approved_at TEXT,
             advisor_approved_at TEXT,
+            interest TEXT,
+            experience TEXT,
 
             FOREIGN KEY (student_id)
                 REFERENCES users(id),

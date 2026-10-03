@@ -12,6 +12,8 @@ export interface ResearchOpportunity {
   applicantCount: number;
   acceptedCount: number;
 
+  semester?: string;
+
   format?: string;
   datesOffered?: string;
   timeBlock?: string;

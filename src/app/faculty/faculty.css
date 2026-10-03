@@ -823,3 +823,135 @@
     font-weight: 600;
     vertical-align: middle;
 }
+
+
+.approved-tag {
+    display: inline-block;
+    margin: 0 0 8px 8px;
+    padding: 5px 10px;
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   POST AN OPPORTUNITY
+   ===================================== */
+
+.post-form {
+    max-width: 760px;
+}
+
+.type-switch {
+    display: inline-flex;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.type-switch button {
+    padding: 9px 18px;
+    background: var(--surface);
+    color: var(--text);
+    border: 0;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.type-switch button + button {
+    border-left: 1px solid var(--border-strong);
+}
+
+.type-switch button.active {
+    background: var(--primary);
+    color: var(--surface);
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+}
+
+.post-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-strong);
+}
+
+.post-grid label.wide {
+    grid-column: 1 / -1;
+}
+
+.post-grid .optional {
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.post-grid input,
+.post-grid textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    font: inherit;
+    font-weight: 400;
+    color: var(--text-strong);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+}
+
+.post-grid textarea {
+    resize: vertical;
+}
+
+.post-grid input:focus,
+.post-grid textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.post-actions {
+    margin-top: 20px;
+}
+
+.post-actions .approve-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.post-message {
+    margin: 16px 0 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.post-message.error {
+    background: var(--danger-bg);
+    color: var(--danger-dark);
+    border: 1px solid var(--danger-border);
+}
+
+.post-message.success {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
+}
+
+@media (max-width: 600px) {
+    .post-grid {
+        grid-template-columns: 1fr;
+    }
+}
